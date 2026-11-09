@@ -33,7 +33,7 @@ function PubCarta() {
   }, [slug]);
 
   if (error) return <main><p role="alert">{error}</p></main>;
-  if (!pub) return <p role="status">Cargando bar…</p>;
+  if (!pub || pub.slug !== slug) return <p role="status">Cargando bar…</p>;
   return (
     <PubProvider pub={pub}>
       <Header />
@@ -50,14 +50,22 @@ function PubPanel() {
 function LegacyHome() {
   const { search } = useLocation();
   // Conserva los enlaces de prueba actuales. Los QR nuevos siempre incluyen el bar.
-  return <Navigate to={"/bar/bar-central" + search} replace />;
+  return <Navigate to={"/pub/bar-central" + search} replace />;
+}
+
+// Conserva mesa y fragmento en los enlaces /bar antiguos.
+function LegacyPubLink() {
+  const { slug } = useParams();
+  const { search, hash } = useLocation();
+  return <Navigate to={"/pub/" + encodeURIComponent(slug) + search + hash} replace />;
 }
 
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<LegacyHome />} />
-      <Route path="/bar/:slug" element={<PubCarta />} />
+      <Route path="/bar/:slug" element={<LegacyPubLink />} />
+      <Route path="/pub/:slug" element={<PubCarta />} />
       <Route path="/pub/login" element={<Login />} />
       <Route path="/pub/orders" element={<RutaPrivada><PubPanel /></RutaPrivada>} />
       <Route path="*" element={<p>Página no encontrada</p>} />

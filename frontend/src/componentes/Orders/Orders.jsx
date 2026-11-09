@@ -155,7 +155,13 @@ const Orders = () => {
         </div>
         <div className="orders-header-actions">
           <PushSettings />
-          <button className="orders-button" type="button" onClick={logout}>Cerrar sesión</button>
+                    <button className="orders-button orders-logout" type="button" onClick={logout}>
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M9 21H4V3h5M14 8l4 4-4 4M8 12h13" />
+            </svg>
+            Cerrar sesión
+          </button>
         </div>
       </header>
 

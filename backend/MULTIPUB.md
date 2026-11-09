@@ -19,7 +19,7 @@ Los JWT antiguos de usuario dejan de servir: es necesario iniciar sesión de nue
 
 ## Enlaces
 
-Carta: /bar/bar-central?mesa=4
+Carta: /pub/bar-central?mesa=4
 Login de cualquier pub: /pub/login
 Panel del pub autenticado: /pub/orders
 La raíz conserva temporalmente los enlaces de prueba de bar-central.
@@ -61,7 +61,7 @@ pero sus rutas no están montadas ni tienen registro público.
 ## Comprobación manual
 
 1. Reiniciar backend e iniciar sesión con la cuenta existente.
-2. Abrir /bar/bar-central?mesa=4 y enviar un pedido.
+2. Abrir /pub/bar-central?mesa=4 y enviar un pedido.
 3. Comprobar que llega al panel y se puede servir/pagar.
 4. Crear bar-norte y cargar su carta con los comandos anteriores.
 5. Iniciar sesión con bar-norte: no debe ver pedidos de bar-central.

@@ -32,7 +32,7 @@ El servicio usa la base de datos existente; no ejecutar semillas al desplegar.
 
 ## Comprobar antes del piloto
 - /api/health devuelve 200.
-- /bar/bar-central?mesa=4 carga carta e imágenes.
+- /pub/bar-central?mesa=4 carga carta e imágenes.
 - /pub/login y /pub/orders funcionan al recargar.
 - /sw.js devuelve JavaScript, no HTML, y Cache-Control: no-cache.
 - /manifest.webmanifest e iconos accesibles.

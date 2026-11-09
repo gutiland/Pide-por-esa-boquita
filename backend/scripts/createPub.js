@@ -1,3 +1,4 @@
+import { isPubSlug } from "../config/pubSlugs.js";
 import { configDotenv } from "dotenv";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
@@ -8,7 +9,7 @@ import Pub from "../Model/Pub.js";
 configDotenv();
 const [slug, name, email] = process.argv.slice(2);
 try {
-  if (!slug || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) || !name || !email || !process.env.PUB_PASSWORD) {
+  if (!isPubSlug(slug) || !name || !email || !process.env.PUB_PASSWORD) {
     throw new Error('Uso: npm run create-pub -- identificador "Nombre del bar" email. Define PUB_PASSWORD antes de ejecutar.');
   }
   if (process.env.PUB_PASSWORD.length < 12) throw new Error("Utiliza una contraseña de al menos 12 caracteres.");
@@ -19,7 +20,7 @@ try {
     throw new Error("Ya existe un pub con ese identificador o email.");
   }
   await Pub.create({ pub: slug, name, email, password: await bcrypt.hash(process.env.PUB_PASSWORD, 12) });
-  console.log("Pub creado. Carta pública: /bar/" + slug);
+  console.log("Pub creado. Carta pública: /pub/" + slug);
 } catch (error) {
   console.error(error.message);
   process.exitCode = 1;

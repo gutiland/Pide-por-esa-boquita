@@ -46,3 +46,11 @@
 }
 .orders-pagination { justify-content: space-between; }
 .orders-pagination span { color: var(--pub-muted); font-size: 13px; }
+.orders-logout {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-color: var(--pub-accent);
+  font-weight: 700;
+}

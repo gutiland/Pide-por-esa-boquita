@@ -1,3 +1,4 @@
+import { isPubSlug } from "../config/pubSlugs.js";
 import mongoose from "mongoose";
 
 // Cada documento representa un bar. initializePubs copia las cuentas antiguas válidas sin borrarlas.
@@ -10,7 +11,8 @@ const themeSchema = new mongoose.Schema({
 }, { _id: false });
 const pubSchema = new mongoose.Schema({
   name: { type: String, required: true, trim: true },
-  pub: { type: String, required: true, trim: true, unique: true, immutable: true },
+  pub: { type: String, required: true, trim: true, unique: true, immutable: true,
+    validate: { validator: isPubSlug, message: "Identificador inválido o reservado para la aplicación" } },
   email: { type: String, required: true, trim: true, lowercase: true, unique: true },
   password: { type: String, required: true, select: false },
   logo: { type: String, default: "/images/drinks/offside-logo.png" },

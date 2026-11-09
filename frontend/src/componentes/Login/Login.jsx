@@ -1,3 +1,4 @@
+import "./Login.css";
 import { useState } from "react";
 import { useAuth } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
@@ -48,7 +49,12 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <main className="login-page">
+      <section className="login-card" aria-labelledby="login-title">
+        <p className="login-eyebrow">PIDE POR ESA BOQUITA</p>
+        <h1 id="login-title">Acceso del pub</h1>
+        <p className="login-description">Entra para gestionar los pedidos de tu bar.</p>
+        <form className="login-form" onSubmit={handleSubmit}>
       <div>
         <label htmlFor="email">Email</label>
         <input
@@ -70,7 +76,9 @@ const Login = () => {
       <button type="submit" disabled={sending}>
         {sending ? "Entrando…" : "Iniciar sesión"}
       </button>
-    </form>
+        </form>
+      </section>
+    </main>
   );
 };
 
