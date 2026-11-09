@@ -31,7 +31,9 @@
 
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  transition: transform 150ms ease, border-color 150ms ease;
+  transition:
+    transform 150ms ease,
+    border-color 150ms ease;
 }
 
 .mezcla-solo:active {

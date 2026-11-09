@@ -9,8 +9,11 @@ export default async function auth(req, res, next) {
   }
   let payload;
   try {
-    payload = jwt.verify(authorization.slice(7), process.env.JWT_SECRET, { algorithms: ["HS256"] });
-    if (!mongoose.isObjectIdOrHexString(payload.pubId)) throw new Error("Token sin pub");
+    payload = jwt.verify(authorization.slice(7), process.env.JWT_SECRET, {
+      algorithms: ["HS256"],
+    });
+    if (!mongoose.isObjectIdOrHexString(payload.pubId))
+      throw new Error("Token sin pub");
   } catch {
     return res.status(401).json({ message: "Token inválido o caducado" });
   }
@@ -20,6 +23,8 @@ export default async function auth(req, res, next) {
     req.pub = pub;
     next();
   } catch {
-    return res.status(500).json({ message: "No se pudo comprobar la cuenta del pub" });
+    return res
+      .status(500)
+      .json({ message: "No se pudo comprobar la cuenta del pub" });
   }
 }

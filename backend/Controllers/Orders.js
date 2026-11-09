@@ -108,23 +108,42 @@ const createOrder = async (req, res) => {
 export function buildOrdersQuery(pub, query = {}) {
   const view = query.view ?? "active";
   if (!["active", "history"].includes(view)) throw new Error("Vista inválida");
-  const statuses = view === "active" ? ["pending", "preparing", "served"] : ["paid", "cancelled"];
+  const statuses =
+    view === "active"
+      ? ["pending", "preparing", "served"]
+      : ["paid", "cancelled"];
   const status = query.status ?? "all";
-  if (status !== "all" && !statuses.includes(status)) throw new Error("Estado inválido para esta vista");
-  if (query.limit !== undefined && (typeof query.limit !== "string" || !/^[1-9][0-9]*$/.test(query.limit))) {
+  if (status !== "all" && !statuses.includes(status))
+    throw new Error("Estado inválido para esta vista");
+  if (
+    query.limit !== undefined &&
+    (typeof query.limit !== "string" || !/^[1-9][0-9]*$/.test(query.limit))
+  ) {
     throw new Error("Tamaño de página inválido");
   }
   const limit = Number(query.limit ?? 20);
-  if (!Number.isSafeInteger(limit) || limit > 50) throw new Error("El tamaño de página debe estar entre 1 y 50");
+  if (!Number.isSafeInteger(limit) || limit > 50)
+    throw new Error("El tamaño de página debe estar entre 1 y 50");
 
   const filter = { pub, status: status === "all" ? { $in: statuses } : status };
   if (query.cursor !== undefined) {
-    if (typeof query.cursor !== "string" || query.cursor.length > 512) throw new Error("Cursor inválido");
+    if (typeof query.cursor !== "string" || query.cursor.length > 512)
+      throw new Error("Cursor inválido");
     let cursor;
-    try { cursor = JSON.parse(Buffer.from(query.cursor, "base64url").toString("utf8")); }
-    catch { throw new Error("Cursor inválido"); }
-    if (!cursor || typeof cursor.date !== "string" || !Number.isFinite(Date.parse(cursor.date))
-      || !mongoose.isObjectIdOrHexString(cursor.id)) throw new Error("Cursor inválido");
+    try {
+      cursor = JSON.parse(
+        Buffer.from(query.cursor, "base64url").toString("utf8"),
+      );
+    } catch {
+      throw new Error("Cursor inválido");
+    }
+    if (
+      !cursor ||
+      typeof cursor.date !== "string" ||
+      !Number.isFinite(Date.parse(cursor.date)) ||
+      !mongoose.isObjectIdOrHexString(cursor.id)
+    )
+      throw new Error("Cursor inválido");
     const date = new Date(cursor.date);
     filter.$or = [
       { createdAt: { $lt: date } },
@@ -138,8 +157,11 @@ export function buildOrdersQuery(pub, query = {}) {
 const getOrders = async (req, res) => {
   if (!req.pub) return res.status(401).json({ message: "Pub no autenticado" });
   let query;
-  try { query = buildOrdersQuery(req.pub.pub, req.query); }
-  catch (error) { return res.status(400).json({ message: error.message }); }
+  try {
+    query = buildOrdersQuery(req.pub.pub, req.query);
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
   try {
     const rows = await Orders.find(query.filter)
       .select("pub table status items createdAt updatedAt")
@@ -152,13 +174,20 @@ const getOrders = async (req, res) => {
     const hasMore = rows.length > query.limit;
     const orders = rows.slice(0, query.limit);
     const last = orders.at(-1);
-    const nextCursor = hasMore ? Buffer.from(JSON.stringify({
-      date: new Date(last.createdAt).toISOString(), id: last._id.toString(),
-    })).toString("base64url") : null;
+    const nextCursor = hasMore
+      ? Buffer.from(
+          JSON.stringify({
+            date: new Date(last.createdAt).toISOString(),
+            id: last._id.toString(),
+          }),
+        ).toString("base64url")
+      : null;
     return res.json({ orders, hasMore, nextCursor, limit: query.limit });
   } catch (error) {
     console.error("Error al consultar pedidos:", error);
-    return res.status(500).json({ message: "No se pudieron obtener los pedidos" });
+    return res
+      .status(500)
+      .json({ message: "No se pudieron obtener los pedidos" });
   }
 };
 // La actualización condicional evita que dos empleados cambien un estado antiguo a la vez.
@@ -174,10 +203,13 @@ const updateOrderStatus = async (req, res) => {
       paid: ["served"],
     };
     if (!Object.hasOwn(allowedPrevious, status)) {
-      return res.status(400).json({ message: "Solo se permite marcar como servido o pagado" });
+      return res
+        .status(400)
+        .json({ message: "Solo se permite marcar como servido o pagado" });
     }
     const account = req.pub;
-    if (!account) return res.status(401).json({ message: "Pub no autenticado" });
+    if (!account)
+      return res.status(401).json({ message: "Pub no autenticado" });
     if (typeof account.pub !== "string" || !account.pub.trim()) {
       return res.status(403).json({ message: "Cuenta de pub inválida" });
     }
@@ -186,14 +218,21 @@ const updateOrderStatus = async (req, res) => {
     const order = await Orders.findOneAndUpdate(
       { _id: id, pub: account.pub, status: { $in: allowedPrevious[status] } },
       { $set: { status } },
-      { new: true, runValidators: true }
-    ).populate("items.drink", "name").populate("items.mixer", "name");
+      { new: true, runValidators: true },
+    )
+      .populate("items.drink", "name")
+      .populate("items.mixer", "name");
 
     if (!order) {
-      const existing = await Orders.findOne({ _id: id, pub: account.pub }).select("status");
-      if (!existing) return res.status(404).json({ message: "Pedido no encontrado" });
+      const existing = await Orders.findOne({
+        _id: id,
+        pub: account.pub,
+      }).select("status");
+      if (!existing)
+        return res.status(404).json({ message: "Pedido no encontrado" });
       return res.status(409).json({
-        message: "El pedido ha cambiado de estado. Actualiza la lista antes de continuar.",
+        message:
+          "El pedido ha cambiado de estado. Actualiza la lista antes de continuar.",
       });
     }
     return res.status(200).json(order);

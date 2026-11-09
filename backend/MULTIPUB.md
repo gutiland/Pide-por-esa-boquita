@@ -10,6 +10,7 @@ Productos y pedidos se separan con ese identificador. El JWT contiene pubId y au
 carga la cuenta real antes de autorizar cualquier operación privada.
 
 Al arrancar:
+
 - Si hay un solo pub, las bebidas antiguas sin pub se asocian a ese bar.
 - Con varios pubs, las bebidas sin propietario no se asignan automáticamente.
 - Si varias cuentas comparten el mismo identificador de pub, se detiene el arranque

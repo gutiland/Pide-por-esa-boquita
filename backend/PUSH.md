@@ -1,6 +1,7 @@
 # Avisos push al personal
 
 ## Qué está implementado
+
 - Activar/desactivar avisos por dispositivo desde el panel autenticado.
 - Aviso de prueba enviado exclusivamente al dispositivo de ese pub.
 - Aviso automático al guardar un nuevo pedido, incluso sin la página abierta.
@@ -11,6 +12,7 @@
 - Sonido y vibración los decide el teléfono. No se pueden forzar con modo silencio/No molestar.
 
 ## Requisitos para la prueba real
+
 Publicar frontend y API bajo el mismo origen HTTPS (o proxy de /api al backend).
 La URL local http://192.168... no es un contexto seguro y no permite activar push.
 http://localhost sirve para pruebas en el ordenador, no en el móvil.
@@ -21,6 +23,7 @@ Android: usar Chrome u otro navegador compatible, conceder el permiso y revisar
 los ajustes de notificaciones/batería del sistema.
 
 ## Configuración
+
 Las claves VAPID ya se han generado una vez en backend/.env.
 La clave privada nunca va en frontend ni se devuelve por la API.
 En el alojamiento del backend deben conservarse las mismas variables:
@@ -34,6 +37,7 @@ La app no necesita permanecer abierta para recibir el push, pero el servidor
 sí debe estar encendido. No se ha desplegado aún.
 
 ## Pruebas
+
 1. Reiniciar backend y frontend.
 2. Entrar al panel desde HTTPS e iniciar sesión.
 3. Activar avisos y conceder permiso.
@@ -46,6 +50,7 @@ sí debe estar encendido. No se ha desplegado aún.
 10. Si se elimina la suscripción, el servidor la limpia al recibir un 404/410 del proveedor.
 
 ## Límites actuales
+
 Se mantiene la actualización del panel cada cinco segundos; push no añade sondeos
 periódicos a MongoDB. Consulta los dispositivos al crear un pedido.
 Los avisos caducan en el proveedor a los cinco minutos para evitar avisos antiguos.

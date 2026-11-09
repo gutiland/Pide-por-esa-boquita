@@ -1,6 +1,11 @@
 import { Router } from "express";
 import auth from "../Middlewares/Auth.js";
-import { getPushConfig, subscribePush, unsubscribePush, testPush } from "../Controllers/Push.js";
+import {
+  getPushConfig,
+  subscribePush,
+  unsubscribePush,
+  testPush,
+} from "../Controllers/Push.js";
 
 const router = Router();
 router.use(auth);

@@ -17,15 +17,26 @@ export const loginPub = async (req, res) => {
   try {
     const { email, password } = req.body ?? {};
     if (typeof email !== "string" || typeof password !== "string") {
-      return res.status(400).json({ message: "Email y contraseña obligatorios" });
+      return res
+        .status(400)
+        .json({ message: "Email y contraseña obligatorios" });
     }
-    const pub = await Pub.findOne({ email: email.trim().toLowerCase() }).select("+password");
-    if (!pub || !await bcrypt.compare(password, pub.password)) {
-      return res.status(401).json({ message: "Email o contraseña incorrectos" });
+    const pub = await Pub.findOne({ email: email.trim().toLowerCase() }).select(
+      "+password",
+    );
+    if (!pub || !(await bcrypt.compare(password, pub.password))) {
+      return res
+        .status(401)
+        .json({ message: "Email o contraseña incorrectos" });
     }
-    const token = jwt.sign({ pubId: pub._id.toString() }, process.env.JWT_SECRET, {
-      expiresIn: "24h", algorithm: "HS256",
-    });
+    const token = jwt.sign(
+      { pubId: pub._id.toString() },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "24h",
+        algorithm: "HS256",
+      },
+    );
     return res.json({ token });
   } catch (error) {
     console.error("Error en login del pub:", error);

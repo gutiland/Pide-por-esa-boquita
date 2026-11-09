@@ -1,70 +1,232 @@
-.carrito-bar, .carrito-dialog, .carrito-dialog * { box-sizing: border-box; }
+.carrito-bar,
+.carrito-dialog,
+.carrito-dialog * {
+  box-sizing: border-box;
+}
 .carrito-bar {
   position: relative;
 
-
   flex-shrink: 0;
-  width: 58px; height: 58px; padding: 0;
-  display: grid; place-items: center;
-  border-radius: 50%; background: var(--pub-accent); color: var(--pub-button-text);
+  width: 58px;
+  height: 58px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--pub-accent);
+  color: var(--pub-button-text);
   box-shadow: 0 6px 22px var(--pub-bubble-shadow);
   transition: transform 150ms ease;
 }
-.carrito-bar:active { transform: scale(.93); }
+.carrito-bar:active {
+  transform: scale(0.93);
+}
 .carrito-badge {
-  position: absolute; top: -4px; right: -4px;
-  min-width: 23px; height: 23px; padding: 0 5px;
-  display: grid; place-items: center;
-  border: 2px solid var(--pub-bg); border-radius: 20px;
-  background: var(--pub-badge); color: var(--pub-badge-text); font-size: 11px; font-weight: 800;
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border: 2px solid var(--pub-bg);
+  border-radius: 999px;
+  background: var(--pub-badge);
+  color: var(--pub-badge-text);
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
 }
 @media (prefers-reduced-motion: reduce) {
-  .carrito-bar { transition: none; }
-  .carrito-bar:active { transform: none; }
+  .carrito-bar {
+    transition: none;
+  }
+  .carrito-bar:active {
+    transform: none;
+  }
 }
 .carrito-dialog {
-  width: calc(100% - 24px); max-width: 560px;
-  max-height: 85dvh; padding: 22px; overflow-y: auto;
-  border: 1px solid var(--pub-accent-border-soft); border-radius: 24px;
-  background: var(--pub-surface); color: var(--pub-text);
+  width: calc(100% - 24px);
+  max-width: 560px;
+  max-height: 85dvh;
+  padding: 22px;
+  overflow-y: auto;
+  border: 1px solid var(--pub-accent-border-soft);
+  border-radius: 24px;
+  background: var(--pub-surface);
+  color: var(--pub-text);
 }
-.carrito-dialog::backdrop { background: var(--pub-backdrop); }
-.carrito-header, .carrito-item-title, .carrito-controls, .carrito-total {
-  display: flex; justify-content: space-between; align-items: center; gap: 14px;
+.carrito-dialog::backdrop {
+  background: var(--pub-backdrop);
 }
-.carrito-header h2 { margin: 0; font-size: 24px; }
-.carrito-header button, .carrito-stepper button { min-width: 44px; min-height: 44px; text-align: center; }
-.carrito-list { padding: 0; margin: 20px 0; list-style: none; }
-.carrito-item { border-bottom: 1px solid var(--pub-divider); padding: 18px 0; }
-.carrito-item-title { align-items: flex-start; }
-.carrito-item-title strong:first-child { overflow-wrap: anywhere; min-width: 0; }
-.carrito-item-title strong:last-child { white-space: nowrap; }
-.carrito-item p { margin: 4px 0; color: var(--pub-accent-text); }
-.carrito-item small, .carrito-note, .carrito-empty { color: var(--pub-muted); }
-.carrito-controls { margin-top: 12px; }
-.carrito-stepper { display: flex; align-items: center; gap: 12px; border: 1px solid var(--pub-control-border); border-radius: 12px; }
-.carrito-stepper button:disabled { opacity: .3; cursor: default; }
-.carrito-remove, .carrito-clear { color: var(--pub-link); min-height: 44px; text-decoration: underline; }
-.carrito-total { font-size: 22px; padding-top: 8px; }
-.carrito-note { font-size: 13px; line-height: 1.5; }
-.carrito-continue { display: block; width: 100%; min-height: 48px; margin-top: 16px; border-radius: 12px; background: var(--pub-accent); color: var(--pub-button-text); text-align: center; font-weight: 700; }
-.carrito-dialog button:focus-visible, .carrito-bar:focus-visible { outline: 3px solid var(--pub-text); outline-offset: 3px; }
-#carta { padding-bottom: 40px; }
-.carta-message { max-width: 900px; margin: 12px auto; min-height: 28px; color: var(--pub-accent-text); }
-.carta-back { display: block; max-width: 900px; width: 100%; margin: 0 auto; min-height: 44px; }
-.carrito-send-form { margin-top: 20px; }
-.carrito-send-form label { display: block; margin-bottom: 8px; font-weight: 700; }
+.carrito-header,
+.carrito-item-title,
+.carrito-controls,
+.carrito-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+}
+.carrito-header h2 {
+  margin: 0;
+  font-size: 24px;
+}
+.carrito-header button,
+.carrito-stepper button {
+  min-width: 44px;
+  min-height: 44px;
+  text-align: center;
+}
+.carrito-list {
+  padding: 0;
+  margin: 20px 0;
+  list-style: none;
+}
+.carrito-item {
+  border-bottom: 1px solid var(--pub-divider);
+  padding: 18px 0;
+}
+.carrito-item-title {
+  align-items: flex-start;
+}
+.carrito-item-title strong:first-child {
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+.carrito-item-title strong:last-child {
+  white-space: nowrap;
+}
+.carrito-item p {
+  margin: 4px 0;
+  color: var(--pub-accent-text);
+}
+.carrito-item small,
+.carrito-note,
+.carrito-empty {
+  color: var(--pub-muted);
+}
+.carrito-controls {
+  margin-top: 12px;
+}
+.carrito-stepper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--pub-control-border);
+  border-radius: 12px;
+}
+.carrito-stepper button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.carrito-remove,
+.carrito-clear {
+  color: var(--pub-link);
+  min-height: 44px;
+  text-decoration: underline;
+}
+.carrito-total {
+  font-size: 22px;
+  padding-top: 8px;
+}
+.carrito-note {
+  font-size: 13px;
+  line-height: 1.5;
+}
+.carrito-continue {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  margin-top: 16px;
+  border-radius: 12px;
+  background: var(--pub-accent);
+  color: var(--pub-button-text);
+  text-align: center;
+  font-weight: 700;
+}
+.carrito-dialog button:focus-visible,
+.carrito-bar:focus-visible {
+  outline: 3px solid var(--pub-text);
+  outline-offset: 3px;
+}
+#carta {
+  padding-bottom: 40px;
+}
+.carta-message {
+  max-width: 900px;
+  margin: 12px auto;
+  min-height: 28px;
+  color: var(--pub-accent-text);
+}
+.carta-back {
+  display: block;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  min-height: 44px;
+}
+.carrito-send-form {
+  margin-top: 20px;
+}
+.carrito-send-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
 .carrito-send-form input {
-  width: 100%; min-height: 48px; padding: 12px; border: 1px solid var(--pub-input-border);
-  border-radius: 12px; background: var(--pub-bg); color: var(--pub-text); font: inherit;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px;
+  border: 1px solid var(--pub-input-border);
+  border-radius: 12px;
+  background: var(--pub-bg);
+  color: var(--pub-text);
+  font: inherit;
 }
-.carrito-dialog button:disabled { opacity: .5; cursor: default; }
-.carrito-success { padding: 16px; border-radius: 12px; background: var(--pub-success-bg); color: var(--pub-success-text); }
-.carrito-success small { display: block; overflow-wrap: anywhere; margin-top: 8px; }
-.carrito-error { padding: 12px; border-radius: 12px; background: var(--pub-error-bg); color: var(--pub-error-text); }
-.carrito-secondary { background: transparent; border: 1px solid var(--pub-accent-border); color: var(--pub-accent-text); }
-.carta-table { max-width: 900px; margin: 0 auto 16px; color: var(--pub-accent-text); font-size: 14px; }
-.carrito-table { padding: 12px 16px; border-radius: 12px; background: var(--pub-soft-bg); color: var(--pub-soft-text); }
+.carrito-dialog button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.carrito-success {
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--pub-success-bg);
+  color: var(--pub-success-text);
+}
+.carrito-success small {
+  display: block;
+  overflow-wrap: anywhere;
+  margin-top: 8px;
+}
+.carrito-error {
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--pub-error-bg);
+  color: var(--pub-error-text);
+}
+.carrito-secondary {
+  background: transparent;
+  border: 1px solid var(--pub-accent-border);
+  color: var(--pub-accent-text);
+}
+.carta-table {
+  max-width: 900px;
+  margin: 0 auto 16px;
+  color: var(--pub-accent-text);
+  font-size: 14px;
+}
+.carrito-table {
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: var(--pub-soft-bg);
+  color: var(--pub-soft-text);
+}
 .carta-heading {
   display: flex;
   align-items: center;

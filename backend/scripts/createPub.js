@@ -10,16 +10,28 @@ configDotenv();
 const [slug, name, email] = process.argv.slice(2);
 try {
   if (!isPubSlug(slug) || !name || !email || !process.env.PUB_PASSWORD) {
-    throw new Error('Uso: npm run create-pub -- identificador "Nombre del bar" email. Define PUB_PASSWORD antes de ejecutar.');
+    throw new Error(
+      'Uso: npm run create-pub -- identificador "Nombre del bar" email. Define PUB_PASSWORD antes de ejecutar.',
+    );
   }
-  if (process.env.PUB_PASSWORD.length < 12) throw new Error("Utiliza una contraseña de al menos 12 caracteres.");
+  if (process.env.PUB_PASSWORD.length < 12)
+    throw new Error("Utiliza una contraseña de al menos 12 caracteres.");
   await connectBD();
   // Asigna la antigua carta global antes de crear un segundo bar.
   await initializePubs();
-  if (await Pub.exists({ $or: [{ pub: slug }, { email: email.trim().toLowerCase() }] })) {
+  if (
+    await Pub.exists({
+      $or: [{ pub: slug }, { email: email.trim().toLowerCase() }],
+    })
+  ) {
     throw new Error("Ya existe un pub con ese identificador o email.");
   }
-  await Pub.create({ pub: slug, name, email, password: await bcrypt.hash(process.env.PUB_PASSWORD, 12) });
+  await Pub.create({
+    pub: slug,
+    name,
+    email,
+    password: await bcrypt.hash(process.env.PUB_PASSWORD, 12),
+  });
   console.log("Pub creado. Carta pública: /pub/" + slug);
 } catch (error) {
   console.error(error.message);

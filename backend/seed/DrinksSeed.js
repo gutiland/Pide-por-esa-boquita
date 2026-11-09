@@ -14,7 +14,9 @@ try {
   if (!pub) throw new Error("Pub no encontrado");
   // La semilla solo sustituye la carta del pub indicado, nunca la de los demás.
   await Drinks.deleteMany({ pub: pub.pub });
-  const inserted = await Drinks.insertMany(drinks.map((drink) => ({ ...drink, pub: pub.pub })));
+  const inserted = await Drinks.insertMany(
+    drinks.map((drink) => ({ ...drink, pub: pub.pub })),
+  );
   console.log("Bebidas insertadas: " + inserted.length);
 } catch (error) {
   console.error(error.message);

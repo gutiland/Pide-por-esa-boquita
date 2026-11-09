@@ -2,9 +2,16 @@
   "name": "copas-a-la-carta",
   "private": true,
   "version": "1.0.0",
-  "engines": { "node": ">=24 <25" },
+  "engines": {
+    "node": "\u003e=24 \u003c25"
+  },
   "scripts": {
-    "build": "npm ci --prefix frontend && npm run build --prefix frontend && npm ci --prefix backend --omit=dev",
-    "start": "npm start --prefix backend"
+    "build": "npm ci --prefix frontend \u0026\u0026 npm run build --prefix frontend \u0026\u0026 npm ci --prefix backend --omit=dev",
+    "start": "npm start --prefix backend",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^3.9.10"
   }
 }

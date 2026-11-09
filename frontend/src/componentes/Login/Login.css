@@ -1,5 +1,8 @@
 /* Pantalla común: la identidad del pub se carga después de iniciar sesión. */
-.login-page, .login-page * { box-sizing: border-box; }
+.login-page,
+.login-page * {
+  box-sizing: border-box;
+}
 .login-page {
   min-height: 100dvh;
   display: grid;
@@ -25,10 +28,26 @@
   font-weight: 700;
   letter-spacing: 1.6px;
 }
-.login-card h1 { margin: 0 0 10px; font-size: 28px; line-height: 1.2; }
-.login-description { margin: 0 0 28px; color: #cabccc; font-size: 15px; }
-.login-form { display: grid; gap: 20px; }
-.login-form label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600; }
+.login-card h1 {
+  margin: 0 0 10px;
+  font-size: 28px;
+  line-height: 1.2;
+}
+.login-description {
+  margin: 0 0 28px;
+  color: #cabccc;
+  font-size: 15px;
+}
+.login-form {
+  display: grid;
+  gap: 20px;
+}
+.login-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
 .login-form input {
   display: block;
   width: 100%;
@@ -41,8 +60,13 @@
   font: inherit;
   font-size: 16px;
 }
-.login-form input::placeholder { color: #a89aaa; }
-.login-form input:focus-visible { outline: 2px solid #ef78b3; outline-offset: 2px; }
+.login-form input::placeholder {
+  color: #a89aaa;
+}
+.login-form input:focus-visible {
+  outline: 2px solid #ef78b3;
+  outline-offset: 2px;
+}
 .login-form button[type="submit"] {
   width: 100%;
   min-height: 50px;
@@ -56,8 +80,14 @@
   text-align: center;
   cursor: pointer;
 }
-.login-form button:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
-.login-form button:disabled { opacity: .6; cursor: default; }
+.login-form button:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 4px;
+}
+.login-form button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
 .login-form [role="alert"] {
   margin: 0;
   padding: 12px;

@@ -30,23 +30,32 @@ app.use("/api/pubs", PubsRouter);
 app.use("/api/orders", OrderRouter);
 app.use("/api/push", PushRouter);
 // Una API inexistente devuelve JSON, nunca la página de React.
-app.use("/api", (req, res) => res.status(404).json({ message: "Ruta no encontrada" }));
+app.use("/api", (req, res) =>
+  res.status(404).json({ message: "Ruta no encontrada" }),
+);
 
 const directory = path.dirname(fileURLToPath(import.meta.url));
 const dist = path.resolve(directory, "../frontend/dist");
 if (fs.existsSync(path.join(dist, "index.html"))) {
   app.use((req, res, next) => {
-    if (req.path.split("/").some((part) => part.startsWith("."))) return res.sendStatus(404);
+    if (req.path.split("/").some((part) => part.startsWith(".")))
+      return res.sendStatus(404);
     next();
   });
-  app.use(express.static(dist, {
-    dotfiles: "deny",
-    setHeaders(res, file) {
-      if (file.endsWith("sw.js") || file.endsWith("index.html") || file.endsWith("manifest.webmanifest")) {
-        res.setHeader("Cache-Control", "no-cache");
-      }
-    },
-  }));
+  app.use(
+    express.static(dist, {
+      dotfiles: "deny",
+      setHeaders(res, file) {
+        if (
+          file.endsWith("sw.js") ||
+          file.endsWith("index.html") ||
+          file.endsWith("manifest.webmanifest")
+        ) {
+          res.setHeader("Cache-Control", "no-cache");
+        }
+      },
+    }),
+  );
   // No devolvemos HTML cuando falta un icono o el worker.
   app.get("/{*route}", (req, res) => {
     if (path.extname(req.path)) return res.sendStatus(404);
@@ -59,6 +68,8 @@ if (fs.existsSync(path.join(dist, "index.html"))) {
 app.use((error, req, res, next) => {
   if (res.headersSent) return next(error);
   const status = error.status >= 400 && error.status < 500 ? error.status : 500;
-  res.status(status).json({ message: status === 500 ? "Error del servidor" : "Petición inválida" });
+  res.status(status).json({
+    message: status === 500 ? "Error del servidor" : "Petición inválida",
+  });
 });
 export default app;
