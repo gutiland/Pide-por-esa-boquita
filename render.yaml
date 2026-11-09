@@ -1,0 +1,24 @@
+# Configuración inicial para pruebas sin coste. No se crea el servicio hasta aplicarla en Render.
+services:
+  - type: web
+    name: copas-a-la-carta
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    autoDeployTrigger: off
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: VAPID_PUBLIC_KEY
+        sync: false
+      - key: VAPID_PRIVATE_KEY
+        sync: false
+      - key: VAPID_SUBJECT
+        sync: false

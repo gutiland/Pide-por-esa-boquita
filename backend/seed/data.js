@@ -1,0 +1,28 @@
+const drinks = [
+  { name: "Bacardí", price: 7, type: "copas", category: "ron", image: "/images/drinks/bacardi-70cl.jpg", available: true },
+  { name: "Brugal", price: 7.5, type: "copas", category: "ron", image: "/images/drinks/brugal.jpg", available: true },
+  { name: "Barceló", price: 7.5, type: "copas", category: "ron", image: "/images/drinks/barcelo.jpg", available: true },
+  { name: "Johnnie Walker", price: 8, type: "copas", category: "whisky", image: "/images/drinks/red-label.jpg", available: true },
+  { name: "Jameson", price: 8, type: "copas", category: "whisky", image: "/images/drinks/Jameson.jpg", available: true },
+  { name: "Beefeater", price: 7.5, type: "copas", category: "ginebra", image: "/images/drinks/Beefeater.jpg", available: true },
+  { name: "Tanqueray", price: 8, type: "copas", category: "ginebra", image: "/images/drinks/Tanqueray.webp", available: true },
+  { name: "Absolut", price: 7.5, type: "copas", category: "vodka", image: "/images/drinks/absolut.jpg", available: true },
+
+  { name: "Coca-Cola", price: 2.5, type: "refrescos", category: "cola", image: "/images/drinks/Coca-Cola.jpg", available: true },
+  { name: "Coca-Cola Zero", price: 2.5, type: "refrescos", category: "cola", image: "/images/drinks/Coca-Cola-Zero.jpg", available: true },
+  { name: "Fanta de naranja", price: 2.5, type: "refrescos", category: "naranja", image: "/images/drinks/fanta-naranja.jpg", available: true },
+  { name: "Fanta de limón", price: 2.5, type: "refrescos", category: "limón", image: "/images/drinks/fanta-limon.jog", available: true },
+  { name: "Schweppes Tónica", price: 2.5, type: "refrescos", category: "tónica", image: "/images/drinks/schweppes-tonica.jpg", available: true },
+
+  { name: "Estrella Galicia", price: 3, type: "cervezas", category: "lager", image: "/images/drinks/estrella-galicia.jpg", available: true },
+  { name: "Mahou 0,0 Tostada", price: 3, type: "cervezas", category: "sin alcohol", image: "/images/drinks/mahou-00-tostada.jpg", available: true },
+
+  { name: "Café solo", price: 1.5, type: "cafés", category: "sin leche", image: "/images/drinks/cafe-solo.jpg", available: true },
+  { name: "Café con leche", price: 1.8, type: "cafés", category: "con leche", image: "/images/drinks/cafe-con-leche.jpg", available: true },
+  { name: "Café cortado", price: 1.6, type: "cafés", category: "con leche", image: "/images/drinks/cafe-cortado.jpg", available: true },
+
+  { name: "Té verde", price: 1.8, type: "infusiones", category: "té", image: "/images/drinks/te-verde.jpg", available: true },
+  { name: "Manzanilla", price: 1.8, type: "infusiones", category: "hierbas", image: "/images/drinks/Manzanilla.jpg", available: true },
+];
+
+export default drinks;

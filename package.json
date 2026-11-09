@@ -1,0 +1,10 @@
+{
+  "name": "copas-a-la-carta",
+  "private": true,
+  "version": "1.0.0",
+  "engines": { "node": ">=24 <25" },
+  "scripts": {
+    "build": "npm ci --prefix frontend && npm run build --prefix frontend && npm ci --prefix backend --omit=dev",
+    "start": "npm start --prefix backend"
+  }
+}

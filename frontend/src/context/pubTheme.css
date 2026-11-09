@@ -1,0 +1,8 @@
+.pub-theme {
+  width: 100%;
+  min-height: 100dvh;
+  background: var(--pub-bg);
+  color: var(--pub-text);
+  color-scheme: var(--pub-color-scheme);
+  accent-color: var(--pub-accent);
+}

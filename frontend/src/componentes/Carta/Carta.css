@@ -1,0 +1,267 @@
+#carta,
+#carta * {
+  box-sizing: border-box;
+}
+
+#carta {
+  width: 100%;
+  min-height: calc(100dvh - 100px);
+  padding: 28px 16px 40px;
+  background: var(--pub-bg);
+  color: var(--pub-text);
+}
+.mezcla-solo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  aspect-ratio: 4 / 5;
+  padding: 16px;
+
+  border: 1px solid var(--pub-accent-border);
+  border-radius: 20px;
+  background: linear-gradient(145deg, var(--pub-soft-bg), var(--pub-surface));
+  color: var(--pub-soft-text);
+
+  font-family: inherit;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 150ms ease, border-color 150ms ease;
+}
+
+.mezcla-solo:active {
+  transform: scale(0.96);
+  border-color: var(--pub-accent);
+}
+
+.mezcla-solo:focus-visible {
+  outline: 3px solid var(--pub-accent);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mezcla-solo {
+    transition: none;
+  }
+
+  .mezcla-solo:active {
+    transform: none;
+  }
+}
+.carta-titulo {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto 24px;
+  margin-top: 24px;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.carta-titulo::before {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--pub-accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.carta-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.categoria-card {
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  aspect-ratio: 4 / 5;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--pub-border);
+  border-radius: 20px;
+  background: var(--pub-card);
+  cursor: pointer;
+  transition: transform 150ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.categoria-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to bottom,
+    transparent 30%,
+    var(--pub-image-shade) 100%
+  );
+  pointer-events: none;
+}
+
+.categoria-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.categoria-card h3 {
+  position: absolute;
+  bottom: 16px;
+  left: 14px;
+  right: 14px;
+  z-index: 2;
+  margin: 0;
+  color: var(--pub-text);
+  font-size: clamp(17px, 4vw, 23px);
+  font-weight: 700;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.categoria-card h3::first-letter {
+  text-transform: uppercase;
+}
+
+.categoria-card:active {
+  transform: scale(0.96);
+}
+
+@media (min-width: 700px) {
+  #carta {
+    padding: 40px 24px;
+  }
+
+  .carta-container {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .categoria-card {
+    transition: none;
+  }
+
+  .categoria-card:active {
+    transform: none;
+  }
+}
+button {
+  appearance: none;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+
+.categoria-card,
+.mezcla-solo {
+  position: relative;
+  box-shadow: 0 6px 18px var(--pub-shadow);
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+  animation: tarjeta-entrada 350ms ease backwards;
+}
+
+.categoria-card:nth-child(2),
+.mezcla-solo:nth-child(2) {
+  animation-delay: 40ms;
+}
+
+.categoria-card:nth-child(3) {
+  animation-delay: 80ms;
+}
+
+.categoria-card:nth-child(4) {
+  animation-delay: 120ms;
+}
+
+.categoria-card:nth-child(n + 5) {
+  animation-delay: 160ms;
+}
+
+.categoria-card img {
+  transition: transform 250ms ease;
+}
+
+.categoria-card:active,
+.mezcla-solo:active {
+  transform: scale(0.95);
+  border-color: var(--pub-accent);
+  box-shadow: 0 0 20px var(--pub-accent-glow);
+}
+
+.categoria-card:focus-visible,
+.mezcla-solo:focus-visible {
+  outline: 3px solid var(--pub-accent);
+  outline-offset: 4px;
+}
+
+/* Efectos de ratón para dispositivos que tienen hover */
+@media (hover: hover) and (pointer: fine) {
+  .categoria-card:hover,
+  .mezcla-solo:hover {
+    transform: translateY(-4px);
+    border-color: var(--pub-accent);
+    box-shadow: 0 10px 28px var(--pub-accent-shadow);
+  }
+
+  .categoria-card:hover img {
+    transform: scale(1.06);
+  }
+
+  .categoria-card:active,
+  .mezcla-solo:active {
+    transform: scale(0.95);
+  }
+}
+
+@keyframes tarjeta-entrada {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .categoria-card,
+  .mezcla-solo,
+  .categoria-card img {
+    animation: none;
+    transition: none;
+  }
+
+  .categoria-card:hover,
+  .categoria-card:active,
+  .mezcla-solo:hover,
+  .mezcla-solo:active,
+  .categoria-card:hover img {
+    transform: none;
+  }
+}
