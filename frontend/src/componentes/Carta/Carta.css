@@ -267,3 +267,53 @@ button {
     transform: none;
   }
 }
+/* Confirmación visual únicamente cuando se añade una bebida al pedido. */
+.carta-flying-item {
+  position: fixed;
+  z-index: 100;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--pub-accent);
+  color: var(--pub-button-text);
+  box-shadow: 0 6px 20px var(--pub-accent-shadow);
+  font-size: 19px;
+  font-weight: 800;
+  pointer-events: none;
+  animation: bebida-al-carrito 620ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.carta-message-added {
+  animation: pedido-confirmado 350ms ease-out;
+}
+@keyframes bebida-al-carrito {
+  0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+  15% { opacity: 1; }
+  30% { transform: translate(-50%, -75%) scale(1.15); }
+  85% { opacity: 1; }
+  100% { transform: translate(calc(-50% + var(--flight-x)), calc(-50% + var(--flight-y))) scale(0.3); opacity: 0; }
+}
+@keyframes pedido-confirmado {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .carta-flying-item { display: none; animation: none; }
+  .carta-message-added { animation: none; }
+}
+.carta-feedback-toggle {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-left: auto;
+  border-radius: 50%;
+  color: var(--pub-accent-text);
+  background: var(--pub-soft-bg);
+}
+.carta-feedback-toggle:focus-visible {
+  outline: 3px solid var(--pub-accent);
+  outline-offset: 3px;
+}

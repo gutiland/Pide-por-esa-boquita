@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { usePub } from "../../context/pubContext";
 import Carrito from "../Carrito/Carrito";
@@ -9,6 +9,7 @@ import {
   readTable,
 } from "../Carrito/cartUtils";
 import "./Carta.css";
+import { createCartFeedback } from "./cartFeedback";
 
 export const Carta = () => {
   const [params] = useSearchParams();
@@ -28,6 +29,30 @@ const CartaMesa = ({ table }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const heading = useRef(null);
+  const additionId = useRef(0);
+  const [addition, setAddition] = useState(null);
+  const [flight, setFlight] = useState(null);
+  const feedback = useRef(null);
+  const [feedbackEnabled, setFeedbackEnabled] = useState(() => {
+    try { return localStorage.getItem("cart-feedback") !== "off"; }
+    catch { return true; }
+  });
+  useEffect(() => () => {
+    feedback.current?.dispose();
+    feedback.current = null;
+  }, []);
+
+  const toggleFeedback = () => {
+    const enabled = !feedbackEnabled;
+    setFeedbackEnabled(enabled);
+    try { localStorage.setItem("cart-feedback", enabled ? "on" : "off"); }
+    catch { /* La preferencia sigue funcionando durante esta visita. */ }
+    if (enabled) {
+      feedback.current ??= createCartFeedback();
+      feedback.current.play();
+    }
+  };
   // Cada pub y mesa tienen su propio carrito persistido.
   const storageKey = "Order:" + pub.id + ":mesa:" + (table ?? "sin-mesa");
   const [cart, setCart] = useState(() => {
@@ -70,15 +95,29 @@ const CartaMesa = ({ table }) => {
     return () => controller.abort();
   }, [pub.slug]);
 
-  const agregar = (drink, mixer = null) => {
+  const agregar = (drink, mixer = null, event) => {
     setCart((previous) => addItem(previous, drink, mixer));
+    if (feedbackEnabled) {
+      feedback.current ??= createCartFeedback();
+      feedback.current.play();
+    }
+    const id = ++additionId.current;
+    setAddition({ id });
+    // Medimos antes de cambiar de pantalla, también al elegir una mezcla.
+    const source = event?.currentTarget.getBoundingClientRect();
+    const target = heading.current?.querySelector(".carrito-bar")?.getBoundingClientRect();
+    if (source && target && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setFlight({ id, x: source.left + source.width / 2, y: source.top + source.height / 2,
+        dx: target.left + target.width / 2 - (source.left + source.width / 2),
+        dy: target.top + target.height / 2 - (source.top + source.height / 2) });
+    }
     setMessage(
       drink.name + (mixer ? " con " + mixer.name : "") + " añadido al pedido",
     );
   };
 
-  const elegirMezcla = (mixer = null) => {
-    agregar(bebidaSeleccionada, mixer);
+  const elegirMezcla = (mixer = null, event) => {
+    agregar(bebidaSeleccionada, mixer, event);
     setBebidaSeleccionada(null);
   };
 
@@ -150,7 +189,7 @@ const CartaMesa = ({ table }) => {
         key: drink._id,
         name: drink.name,
         image: imagenesPorBebida[drink.name],
-        select: () => elegirMezcla(drink),
+        select: (event) => elegirMezcla(drink, event),
       }));
   } else if (categoriaSeleccionada) {
     title = categoriaSeleccionada;
@@ -168,10 +207,10 @@ const CartaMesa = ({ table }) => {
         key: drink._id,
         name: drink.name,
         image: imagenesPorBebida[drink.name],
-        select: () =>
+        select: (event) =>
           drink.type === "copas"
             ? setBebidaSeleccionada(drink)
-            : agregar(drink),
+            : agregar(drink, null, event),
       }));
   } else if (tipoSeleccionado) {
     title = tipoSeleccionado;
@@ -222,11 +261,22 @@ const CartaMesa = ({ table }) => {
           ? "Mesa " + table
           : "Escanea el QR de tu mesa para enviar un pedido."}
       </p>
-      <div className="carta-heading">
+      <div className="carta-heading" ref={heading}>
         <h2 className="carta-titulo">{title}</h2>
+        <button type="button" className="carta-feedback-toggle"
+          aria-pressed={feedbackEnabled}
+          aria-label={feedbackEnabled ? "Desactivar sonido y vibración" : "Activar sonido y vibración"}
+          title={feedbackEnabled ? "Desactivar sonido y vibración" : "Activar sonido y vibración"}
+          onClick={toggleFeedback}>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M11 5 6 9H3v6h3l5 4Z" />
+            {feedbackEnabled ? <><path d="M15 8a6 6 0 0 1 0 8" /><path d="M18 5a10 10 0 0 1 0 14" /></> : <path d="m16 9 5 6m0-6-5 6" />}
+          </svg>
+        </button>
         <Carrito
           table={table}
           items={cart}
+          addition={addition}
           onQuantityChange={(key, quantity) =>
             setCart((previous) => changeQuantity(previous, key, quantity))
           }
@@ -236,9 +286,16 @@ const CartaMesa = ({ table }) => {
           onClear={() => setCart([])}
         />
       </div>
-      <p className="carta-message" role="status">
+      <p key={addition?.id ?? 0} className={`carta-message${addition ? " carta-message-added" : ""}`} role="status">
         {message}
       </p>
+      {flight && (
+        <span key={flight.id} className="carta-flying-item" aria-hidden="true"
+          style={{ left: flight.x, top: flight.y, "--flight-x": `${flight.dx}px`, "--flight-y": `${flight.dy}px` }}
+          onAnimationEnd={() => setFlight((current) => current?.id === flight.id ? null : current)}>
+          +1
+        </span>
+      )}
       {loading && <p>Cargando carta…</p>}
       {error && <p role="alert">{error}</p>}
       {!loading && !error && options.length === 0 && (
@@ -249,7 +306,7 @@ const CartaMesa = ({ table }) => {
           <button
             type="button"
             className="mezcla-solo"
-            onClick={() => elegirMezcla()}
+            onClick={(event) => elegirMezcla(null, event)}
           >
             Solo
           </button>

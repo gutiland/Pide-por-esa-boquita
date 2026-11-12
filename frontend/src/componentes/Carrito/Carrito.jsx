@@ -12,6 +12,7 @@ const euros = (cents) =>
 export default function Carrito({
   table,
   items,
+  addition,
   onQuantityChange,
   onRemove,
   onClear,
@@ -95,6 +96,7 @@ export default function Carrito({
           dialog.current.showModal();
         }}
       >
+        <span key={addition?.id ?? 0} className={addition ? "carrito-feedback carrito-feedback-added" : "carrito-feedback"}>
         <svg
           width="26"
           height="26"
@@ -115,6 +117,7 @@ export default function Carrito({
             {count > 99 ? "99+" : count}
           </span>
         )}
+        </span>
       </button>
       {/* El diálogo nativo gestiona el foco, Escape y bloquea el fondo. */}
       <dialog
@@ -137,9 +140,18 @@ export default function Carrito({
           </button>
         </header>
         {confirmation && (
-          <p className="carrito-success" role="status">
-            Pedido enviado a la mesa {confirmation.table}. Pagarás al personal.
-          </p>
+          <div className="carrito-success carrito-celebration" role="status">
+            <span className="carrito-success-eyebrow">{pub.name}</span>
+            <svg className="carrito-success-check" width="68" height="68" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+              <circle cx="32" cy="32" r="29" stroke="currentColor" strokeWidth="1" />
+              <circle cx="32" cy="32" r="25" stroke="currentColor" strokeWidth="0.5" opacity="0.4" />
+              <path d="m21 32 7 7 15-16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <strong>Todo listo.</strong>
+            <span className="carrito-success-table">Mesa {confirmation.table} · Pedido enviado</span>
+            <p>Tu pedido ha quedado registrado.<br />Disfruta del momento.</p>
+            <small>Pagarás al personal.</small>
+          </div>
         )}
         {error && (
           <p className="carrito-error" role="alert">
